@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\seg_grupo\ISegGrupoRepository;
 use App\Repositories\seg_grupo\SegGrupoRepository;
+use App\Repositories\seg_modulo\ISegModuloRepository;
+use App\Repositories\seg_modulo\SegModuloRepository;
 use App\Repositories\seg_tipoModulo\ISegTipoModuloRepository;
 use App\Repositories\seg_tipoModulo\SegTipoModuloRepository;
 use App\Repositories\seg_user\AuthRepository;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IAuthRepository::class, AuthRepository::class);
         $this->app->bind(ISegGrupoRepository::class, SegGrupoRepository::class);
         $this->app->bind(ISegTipoModuloRepository::class, SegTipoModuloRepository::class);
+        $this->app->bind(ISegModuloRepository::class, SegModuloRepository::class);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Repositories\seg_modulo;
 
 use App\Models\SegModulo;
+use Exception;
 
 class SegModuloRepository implements ISegModuloRepository
 {
@@ -30,12 +31,7 @@ class SegModuloRepository implements ISegModuloRepository
 
     public function delete($id)
     {
-        $modulo = $this->modulo->existe($id)->first();
-        if ($modulo) :
-            return $this->modulo->destroy($id);
-        endif;
-
-        return false;
+        return $this->modulo->destroy($id);
     }
 
     public function getModulo($id)

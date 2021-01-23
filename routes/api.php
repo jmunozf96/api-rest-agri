@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SegGrupoController;
+use App\Http\Controllers\SegModuloController;
 use App\Http\Controllers\SegTipoModuloController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 }); */
 
-Route::group(['prefix' => 'agrisoft'], function () {
+Route::group(['prefix' => 'agrisoft/index.php'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
@@ -30,19 +31,29 @@ Route::group(['prefix' => 'agrisoft'], function () {
         Route::get('/user-profile', [AuthController::class, 'userProfile']);
     });
 
-    Route::group(['prefix' => 'seg_group'], function () {
-        Route::get('/', [SegGrupoController::class, 'index']);
-        Route::post('/', [SegGrupoController::class, 'save']);
-        Route::patch('/{id}', [SegGrupoController::class, 'update']);
-        Route::delete('/{id}', [SegGrupoController::class, 'delete']);
-        Route::get('/search/{id}', [SegGrupoController::class, 'show']);
-    });
+    Route::group(['prefix' => 'security'], function () {
+        Route::group(['prefix' => 'group'], function () {
+            Route::get('/', [SegGrupoController::class, 'index']);
+            Route::post('/', [SegGrupoController::class, 'save']);
+            Route::patch('/{id}', [SegGrupoController::class, 'update']);
+            Route::delete('/{id}', [SegGrupoController::class, 'delete']);
+            Route::get('/search/{id}', [SegGrupoController::class, 'show']);
+        });
 
-    Route::group(['prefix' => 'seg_tmodule'], function () {
-        Route::get('/', [SegTipoModuloController::class, 'index']);
-        Route::post('/', [SegTipoModuloController::class, 'save']);
-        Route::patch('/{id}', [SegTipoModuloController::class, 'update']);
-        Route::delete('/{id}', [SegTipoModuloController::class, 'delete']);
-        Route::get('/search/{id}', [SegTipoModuloController::class, 'show']);
+        Route::group(['prefix' => 'typeModule'], function () {
+            Route::get('/', [SegTipoModuloController::class, 'index']);
+            Route::post('/', [SegTipoModuloController::class, 'save']);
+            Route::patch('/{id}', [SegTipoModuloController::class, 'update']);
+            Route::delete('/{id}', [SegTipoModuloController::class, 'delete']);
+            Route::get('/search/{id}', [SegTipoModuloController::class, 'show']);
+        });
+
+        Route::group(['prefix' => 'module'], function () {
+            Route::get('/', [SegModuloController::class, 'index']);
+            Route::post('/', [SegModuloController::class, 'save']);
+            Route::patch('/{id}', [SegModuloController::class, 'update']);
+            Route::delete('/{id}', [SegModuloController::class, 'delete']);
+            Route::get('/search/{id}', [SegModuloController::class, 'show']);
+        });
     });
 });

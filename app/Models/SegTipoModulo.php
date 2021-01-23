@@ -13,6 +13,11 @@ class SegTipoModulo extends Model
 
     protected $fillable = ['nombre', 'descripcion'];
 
+    public function modules()
+    {
+        return $this->hasMany(SegModulo::class, 'idTModulo', 'id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('estado', true);

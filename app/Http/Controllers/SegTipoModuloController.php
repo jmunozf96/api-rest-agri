@@ -53,7 +53,16 @@ class SegTipoModuloController extends Controller
     public function update(SegTipoModuloRequest $request, $id)
     {
         try {
-            $response = $this->tipo_modulo->update(array_merge($request->input(), ['id' => $id]));
+            $tipo_modulo = $this->tipo_modulo->getTipoModulo($id);
+
+            if (!$tipo_modulo)
+                throw new Exception('No se encontro el registro', 404);
+
+            $response = $this->tipo_modulo->update(array_merge(
+                $request->only('nombre', 'descripcion'),
+                ['id' => $id]
+            ));
+
             if ($response) :
                 return response()->json([
                     'type' => 'success',
@@ -61,7 +70,7 @@ class SegTipoModuloController extends Controller
                 ], 200);
             endif;
 
-            throw new Exception('No se puedo procesar el registro.', 500);
+            throw new Exception('No se puedo actualizar el registro.', 500);
         } catch (Exception $ex) {
             return response()->json(['type' => 'error', 'message' => $ex->getMessage()], 500);
         }
@@ -70,7 +79,13 @@ class SegTipoModuloController extends Controller
     public function delete($id)
     {
         try {
+            $tipo_modulo = $this->tipo_modulo->getTipoModulo($id);
+
+            if (!$tipo_modulo)
+                throw new Exception('No se encontro el registro', 404);
+
             $response = $this->tipo_modulo->delete($id);
+
             if ($response) :
                 return response()->json([
                     'type' => 'success',

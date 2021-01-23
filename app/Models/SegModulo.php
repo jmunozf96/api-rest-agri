@@ -16,7 +16,7 @@ class SegModulo extends Model
 
     public function tmodulo()
     {
-        return $this->hasOne(SegTipoModulo::class, 'idTModulo', 'id');
+        return $this->hasOne(SegTipoModulo::class, 'id', 'idTModulo');
     }
 
     public function scopeActive($query)
@@ -29,8 +29,17 @@ class SegModulo extends Model
         return $query->where('id', $id);
     }
 
+    public function scopeTmodulo($query)
+    {
+        return $query->whereHas('tmodulo')->with('tmodulo', function ($query) {
+            $query->select('id', 'nombre', 'descripcion');
+        });
+    }
+
     public function getAll()
     {
-        return $this->active()->get();
+        return $this->active()
+            ->tmodulo()
+            ->get();
     }
 }

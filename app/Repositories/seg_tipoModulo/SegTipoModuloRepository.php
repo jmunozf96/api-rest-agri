@@ -30,12 +30,7 @@ class SegTipoModuloRepository implements ISegTipoModuloRepository
 
     public function delete($id)
     {
-        $tipo_modulo = $this->tipo_modulo->existe($id)->first();
-        if ($tipo_modulo) :
-            return $this->tipo_modulo->destroy($id);
-        endif;
-
-        return false;
+        return $this->tipo_modulo->destroy($id);
     }
 
     public function getTipoModulo($id)
