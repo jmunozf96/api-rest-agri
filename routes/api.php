@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SegGruPermisoController;
 use App\Http\Controllers\SegGrupoController;
 use App\Http\Controllers\SegModuloController;
 use App\Http\Controllers\SegTipoModuloController;
@@ -54,6 +55,10 @@ Route::group(['prefix' => 'agrisoft/index.php'], function () {
             Route::patch('/{id}', [SegModuloController::class, 'update']);
             Route::delete('/{id}', [SegModuloController::class, 'delete']);
             Route::get('/search/{id}', [SegModuloController::class, 'show']);
+        });
+
+        Route::group(['prefix' => 'group_permission'], function () {
+            Route::post('/', [SegGruPermisoController::class, 'save']);
         });
     });
 });

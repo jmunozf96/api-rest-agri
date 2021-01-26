@@ -13,6 +13,11 @@ class SegGrupo extends Model
 
     protected $fillable = ['nombre', 'descripcion'];
 
+    public function permisos()
+    {
+        return $this->hasMany(SegGruPermiso::class, 'idGrupo', 'id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('estado', true);
