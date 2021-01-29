@@ -59,6 +59,7 @@ Route::group(['prefix' => 'agrisoft/index.php'], function () {
 
         Route::group(['prefix' => 'group_permission'], function () {
             Route::post('/', [SegGruPermisoController::class, 'save']);
+            Route::patch('/{id}', [SegGruPermisoController::class, 'update']);
         });
     });
 });

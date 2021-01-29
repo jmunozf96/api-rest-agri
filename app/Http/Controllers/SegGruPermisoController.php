@@ -18,14 +18,14 @@ class SegGruPermisoController extends Controller
     public function save(SegGruPermisoRequest $request)
     {
         try {
-            return response()->json($request->validated());
-            /* if ($response) :
+            $response =  $this->permiso->update($request->validated());
+            if ($response) :
                 return response()->json([
                     'type' => 'success',
                     'message' => 'Registro guardado con éxito.',
                     'data' => $response
                 ], 200);
-            endif; */
+            endif; 
 
             throw new Exception('No se puedo procesar la información.', 500);
         } catch (Exception $ex) {

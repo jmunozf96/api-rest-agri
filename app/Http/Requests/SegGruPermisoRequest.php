@@ -28,7 +28,7 @@ class SegGruPermisoRequest extends FormRequest
         switch ($this->method()) {
             case 'POST':
                 return [
-                    'idGrupo' => 'required|exists:SEG_GRUPO,id',
+                    'idGrupo' => 'required',
                     'permisos' => 'required|array'
                 ];
             default:

@@ -27,15 +27,18 @@ class SegGruPermiso extends Model
         return $query->where('id', $id);
     }
 
+    public function scopeGetGrupo($query, $idGrupo)
+    {
+        return $query->where('idGrupo', $idGrupo);
+    }
+
     public function getGrupoPermisos($idGrupo)
     {
-        return $this->where('idGrupo', $idGrupo)->get();
+        return $this->getGrupo()->get();
     }
-    
+
     public function getAll()
     {
         return $this->get();
     }
-
-    
 }
