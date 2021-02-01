@@ -15,6 +15,11 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'SEG_USUARIO';
 
+    public function perfil()
+    {
+        return $this->hasMany(SegUsuPerfil::class, 'idUsuario', 'id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

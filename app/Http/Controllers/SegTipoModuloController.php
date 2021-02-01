@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SegTipoModuloRequest;
 use App\Repositories\seg_tipoModulo\ISegTipoModuloRepository;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class SegTipoModuloController extends Controller
 {
@@ -35,8 +36,10 @@ class SegTipoModuloController extends Controller
     public function save(SegTipoModuloRequest $request)
     {
         try {
+            DB::beginTransaction();
             $response = $this->tipo_modulo->save($request->validated());
             if ($response) :
+                DB::commit();
                 return response()->json([
                     'type' => 'success',
                     'message' => 'Registro guardado con éxito.',
@@ -46,6 +49,7 @@ class SegTipoModuloController extends Controller
 
             throw new Exception('No se puedo procesar el registro.', 500);
         } catch (Exception $ex) {
+            DB::rollback();
             return response()->json(['type' => 'error', 'message' => $ex->getMessage()], 500);
         }
     }
@@ -58,12 +62,14 @@ class SegTipoModuloController extends Controller
             if (!$tipo_modulo)
                 throw new Exception('No se encontro el registro', 404);
 
+            DB::beginTransaction();;
             $response = $this->tipo_modulo->update(array_merge(
                 $request->only('nombre', 'descripcion'),
                 ['id' => $id]
             ));
 
             if ($response) :
+                DB::commit();
                 return response()->json([
                     'type' => 'success',
                     'message' => 'Registro actualizados con éxito.'
@@ -72,6 +78,7 @@ class SegTipoModuloController extends Controller
 
             throw new Exception('No se puedo actualizar el registro.', 500);
         } catch (Exception $ex) {
+            DB::rollback();
             return response()->json(['type' => 'error', 'message' => $ex->getMessage()], 500);
         }
     }

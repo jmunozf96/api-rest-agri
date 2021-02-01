@@ -31,10 +31,12 @@ class SegModuloRequest extends FormRequest
                     'idTModulo' => 'required|exists:SEG_TIPOMODULO,id',
                     'nombre' => 'required|string|between:2,100|unique:SEG_MODULO',
                     'descripcion' => 'required|string|max:250',
-                    'url' => 'required|string|max:300'
+                    'url' => 'required|string|max:300',
+                    'icon' => 'required|string'
                 ];
             case 'PATCH':
                 return [
+                    'nombre' => 'required|string|between:2,100|unique:SEG_MODULO',
                     'descripcion' => 'required|string|max:250',
                 ];
         }

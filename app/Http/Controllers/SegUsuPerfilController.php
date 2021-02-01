@@ -2,36 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SegGruPermisoRequest;
-use App\Repositories\seg_grupermiso\ISegGruPermisoRepository;
+use App\Http\Requests\SegUsuPerfilRequest;
+use App\Repositories\seg_usuperfil\ISegUsuPerfilRepository;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class SegGruPermisoController extends Controller
+class SegUsuPerfilController extends Controller
 {
-    protected $permiso;
+    protected $perfil;
 
-    public function __construct(ISegGruPermisoRepository $permiso)
+    public function __construct(ISegUsuPerfilRepository $perfil)
     {
-        $this->permiso = $permiso;
+        $this->perfil = $perfil;
         $this->middleware('user_access');
     }
 
-    public function save(SegGruPermisoRequest $request)
+    public function save(SegUsuPerfilRequest $request)
     {
         try {
             DB::beginTransaction();
-            $response =  $this->permiso->update($request->validated());
+            $response = $this->perfil->update($request->validated());
             if ($response) :
                 DB::commit();
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Registro guardado con éxito.',
+                    'message' => 'Perfil guardado con éxito.',
                     'data' => $response
                 ], 200);
             endif;
 
-            throw new Exception('No se puedo procesar la información.', 500);
+            throw new Exception('No se puedo procesar el perfil.', 500);
         } catch (Exception $ex) {
             DB::rollback();
             return response()->json(['type' => 'error', 'message' => $ex->getMessage()], 500);

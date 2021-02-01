@@ -10,4 +10,5 @@ interface IAuthRepository extends IAuthentication
     public function register(array $user);
     public function userProfile();
     public function getToken($token);
+    public function getModulesAccess($idUser);
 }

@@ -2,6 +2,9 @@
 
 namespace App\Repositories\seg_user;
 
+use App\Models\SegGrupo;
+use App\Models\SegTipoModulo;
+use App\Models\SegUsuPerfil;
 use App\Repositories\seg_user\IAuthRepository;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -41,8 +44,27 @@ class AuthRepository implements IAuthRepository
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'permisos' => $this->getModulesAccess(Auth::id())
         ];
+    }
+
+    public function getModulesAccess($idUser)
+    {
+        $modulos = array();
+        $grupos = SegUsuPerfil::where('idUsuario', $idUser)->get();
+
+        foreach ($grupos as $grupo) :
+            $modulos_access = SegTipoModulo::with(['modules' => function ($query) use ($grupo) {
+                $query->whereHas('permisos', function ($query) use ($grupo) {
+                    $query->where('idGrupo', $grupo->idGrupo);
+                });
+            }])->whereHas('modules.permisos')->get();
+
+            array_push($modulos, ['grupo' => SegGrupo::find($grupo->idGrupo), 'access' => $modulos_access]);
+        endforeach;
+
+        return $modulos;
     }
 
     public function logout()

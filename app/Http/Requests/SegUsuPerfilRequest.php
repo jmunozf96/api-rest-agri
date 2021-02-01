@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UserRequest extends FormRequest
+class SegUsuPerfilRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,22 +28,21 @@ class UserRequest extends FormRequest
         switch ($this->method()) {
             case 'POST':
                 return [
-                    'name' => 'required|string|between:2,100|unique:SEG_USUARIO',
-                    'email' => 'required|string|email|max:100|unique:SEG_USUARIO',
-                    'password' => 'required|string|confirmed|min:6',
-                ];
-            case 'PUT':
-                return [
-                    'email' => 'required|string|email|max:100|unique:SEG_USUARIO',
-                    'password' => 'required|string|confirmed|min:6',
+                    'idUsuario' => 'required',
+                    'grupos' => 'required|array'
                 ];
             default:
                 break;
         }
     }
 
+
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json($validator->errors()->all(), 500));
+        throw new HttpResponseException(response()->json([
+            'type' => 'error',
+            'message' => 'Error en validacion de datos.',
+            'error' => $validator->errors()
+        ], 500));
     }
 }

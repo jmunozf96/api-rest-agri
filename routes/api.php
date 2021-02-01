@@ -5,6 +5,8 @@ use App\Http\Controllers\SegGruPermisoController;
 use App\Http\Controllers\SegGrupoController;
 use App\Http\Controllers\SegModuloController;
 use App\Http\Controllers\SegTipoModuloController;
+use App\Http\Controllers\SegUsuarioController;
+use App\Http\Controllers\SegUsuPerfilController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +35,10 @@ Route::group(['prefix' => 'agrisoft/index.php'], function () {
     });
 
     Route::group(['prefix' => 'security'], function () {
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/', [SegUsuarioController::class, 'index']);
+        });
+
         Route::group(['prefix' => 'group'], function () {
             Route::get('/', [SegGrupoController::class, 'index']);
             Route::post('/', [SegGrupoController::class, 'save']);
@@ -60,6 +66,11 @@ Route::group(['prefix' => 'agrisoft/index.php'], function () {
         Route::group(['prefix' => 'group_permission'], function () {
             Route::post('/', [SegGruPermisoController::class, 'save']);
             Route::patch('/{id}', [SegGruPermisoController::class, 'update']);
+        });
+
+        Route::group(['prefix' => 'user_profile'], function () {
+            Route::post('/', [SegUsuPerfilController::class, 'save']);
+            Route::patch('/{id}', [SegUsuPerfilController::class, 'update']);
         });
     });
 });

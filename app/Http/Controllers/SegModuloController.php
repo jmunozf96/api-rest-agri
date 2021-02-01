@@ -62,7 +62,7 @@ class SegModuloController extends Controller
                 throw new Exception('No se encontro el registro', 404);
 
             $response = $this->modulo->update(array_merge(
-                $request->only('descripcion','url','icon'),
+                $request->only('nombre', 'descripcion', 'url', 'icon'),
                 ['id' => $id]
             ));
 

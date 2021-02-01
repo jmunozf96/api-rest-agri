@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         if (!$token = $this->authRepository->login($request->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Usuario o contraseña incorrectas.'], 401);
         }
 
         return $this->createNewToken($token);
@@ -27,7 +27,12 @@ class AuthController extends Controller
 
     public function register(UserRequest $request)
     {
-        $user = $this->authRepository->register(array_merge($request->validated(), ['password' => bcrypt($request->password)]));
+        $user = $this->authRepository->register(
+            array_merge(
+                $request->validated(),
+                ['password' => bcrypt($request->password)]
+            )
+        );
 
         if ($user) :
             return response()->json([

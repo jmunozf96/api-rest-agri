@@ -19,6 +19,11 @@ class SegModulo extends Model
         return $this->hasOne(SegTipoModulo::class, 'id', 'idTModulo');
     }
 
+    public function permisos()
+    {
+        return $this->hasMany(SegGruPermiso::class, 'idModulo', 'id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('estado', true);
