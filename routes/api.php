@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'agrisoft/index.php'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/register', [AuthController::class, 'register']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/refresh', [AuthController::class, 'refresh']);
         Route::get('/user-profile', [AuthController::class, 'userProfile']);
@@ -37,6 +36,9 @@ Route::group(['prefix' => 'agrisoft/index.php'], function () {
     Route::group(['prefix' => 'security'], function () {
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', [SegUsuarioController::class, 'index']);
+            Route::post('/', [SegUsuarioController::class, 'save']);
+            Route::patch('/{id}', [SegUsuarioController::class, 'update']);
+            Route::delete('/{id}', [SegUsuarioController::class, 'delete']);
         });
 
         Route::group(['prefix' => 'group'], function () {

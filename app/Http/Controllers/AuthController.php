@@ -25,25 +25,6 @@ class AuthController extends Controller
         return $this->createNewToken($token);
     }
 
-    public function register(UserRequest $request)
-    {
-        $user = $this->authRepository->register(
-            array_merge(
-                $request->validated(),
-                ['password' => bcrypt($request->password)]
-            )
-        );
-
-        if ($user) :
-            return response()->json([
-                'message' => 'User successfully registered',
-                'user' => $user
-            ], 200);
-        endif;
-
-        return response()->json(['message' => 'Error']);
-    }
-
     public function logout()
     {
         $this->authRepository->logout();

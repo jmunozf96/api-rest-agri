@@ -28,11 +28,6 @@ class AuthRepository implements IAuthRepository
         return Auth::refresh();
     }
 
-    public function register(array $data)
-    {
-        return $this->user->create($data);
-    }
-
     public function userProfile()
     {
         return Auth::user();

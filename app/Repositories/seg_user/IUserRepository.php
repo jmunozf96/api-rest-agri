@@ -2,7 +2,9 @@
 
 namespace App\Repositories\seg_user;
 
-interface IUserRepository
+use App\Helpers\Interfaces\IMantenimiento;
+
+interface IUserRepository extends IMantenimiento
 {
-    public function all();
+    public function getUser($id);
 }

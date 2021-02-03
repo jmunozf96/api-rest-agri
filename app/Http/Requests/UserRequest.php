@@ -32,9 +32,10 @@ class UserRequest extends FormRequest
                     'email' => 'required|string|email|max:100|unique:SEG_USUARIO',
                     'password' => 'required|string|confirmed|min:6',
                 ];
-            case 'PUT':
+            case 'PATCH':
                 return [
-                    'email' => 'required|string|email|max:100|unique:SEG_USUARIO',
+                    'name' => 'required|string|between:2,100|unique:SEG_USUARIO,name,'.$this->get('id'),
+                    'email' => 'required|string|email|max:100|unique:SEG_USUARIO,email,'.$this->get('id'),
                     'password' => 'required|string|confirmed|min:6',
                 ];
             default:
