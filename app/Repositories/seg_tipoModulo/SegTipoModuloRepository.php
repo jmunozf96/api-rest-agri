@@ -15,7 +15,7 @@ class SegTipoModuloRepository implements ISegTipoModuloRepository
 
     public function all()
     {
-        return $this->tipo_modulo->getAll();
+        return $this->tipo_modulo->with('modules')->orderBy('id')->paginate(5);
     }
 
     public function save($data)
@@ -36,5 +36,13 @@ class SegTipoModuloRepository implements ISegTipoModuloRepository
     public function getTipoModulo($id)
     {
         return $this->tipo_modulo->existe($id)->first();
+    }
+
+    public function getAllTipos()
+    {
+        return $this->tipo_modulo
+            ->with('modules')
+            ->whereHas('modules')
+            ->get();
     }
 }

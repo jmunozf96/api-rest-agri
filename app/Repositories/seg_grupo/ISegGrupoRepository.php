@@ -8,4 +8,5 @@ use App\Models\SegGrupo;
 interface ISegGrupoRepository extends IMantenimiento
 {
     public function getGrupo($id);
+    public function getAllGrupos();
 }

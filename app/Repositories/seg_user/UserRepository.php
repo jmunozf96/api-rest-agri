@@ -15,7 +15,12 @@ class UserRepository implements IUserRepository
 
     public function all()
     {
-        return $this->user->orderBy('updated_at', 'desc')->paginate(5);
+        return $this->user
+            ->with(['perfil' => function($query){
+                $query->with('grupo');
+            }])
+            ->orderBy('updated_at', 'desc')
+            ->paginate(5);
     }
 
     public function save($data)

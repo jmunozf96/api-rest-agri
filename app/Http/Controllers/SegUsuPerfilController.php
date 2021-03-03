@@ -22,13 +22,13 @@ class SegUsuPerfilController extends Controller
     {
         try {
             DB::beginTransaction();
-            $response = $this->perfil->update($request->validated());
-            if ($response) :
+            $data = $this->perfil->update($request->validated());
+            if ($data) :
                 DB::commit();
                 return response()->json([
                     'type' => 'success',
                     'message' => 'Perfil guardado con éxito.',
-                    'data' => $response
+                    'response' => $data
                 ], 200);
             endif;
 

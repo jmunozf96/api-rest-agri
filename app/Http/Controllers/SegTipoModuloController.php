@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SegTipoModuloRequest;
 use App\Repositories\seg_tipoModulo\ISegTipoModuloRepository;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SegTipoModuloController extends Controller
@@ -17,16 +18,23 @@ class SegTipoModuloController extends Controller
         $this->tipo_modulo = $tipo_modulo;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = $this->tipo_modulo->all();
+            $paginate = $request->get('paginate');
+
+            if ($paginate && filter_var($paginate, FILTER_VALIDATE_BOOL)) :
+                $data = $this->tipo_modulo->all();
+            else :
+                $data = $this->tipo_modulo->getAllTipos();
+            endif;
+
 
             $message = count($data) > 0 ? 'devuelve registros.' : 'no hay registros.';
 
             return response()->json([
                 'type' => 'success', 'message' => 'Consulta ejecutada con éxito, ' . $message,
-                'data' => $data
+                'response' => $data
             ], 200);
         } catch (Exception $ex) {
             return response()->json(['type' => 'error', 'message' => $ex->getMessage()], $ex->getCode());

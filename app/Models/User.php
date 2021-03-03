@@ -40,7 +40,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'permisos' => $this->getModulesAccess($this->id)
+        ];
     }
 
     public function perfil()
@@ -51,5 +55,23 @@ class User extends Authenticatable implements JWTSubject
     public function scopeExiste($query, $id)
     {
         return $query->where('id', $id);
+    }
+
+    public function getModulesAccess($idUser)
+    {
+        $modulos = array();
+        $grupos = SegUsuPerfil::where('idUsuario', $idUser)->get();
+
+        foreach ($grupos as $grupo) :
+            $modulos_access = SegTipoModulo::with(['modules' => function ($query) use ($grupo) {
+                $query->whereHas('permisos', function ($query) use ($grupo) {
+                    $query->where('idGrupo', $grupo->idGrupo);
+                });
+            }])->whereHas('modules.permisos')->get();
+
+            array_push($modulos, ['grupo' => SegGrupo::find($grupo->idGrupo), 'access' => $modulos_access]);
+        endforeach;
+
+        return $modulos;
     }
 }

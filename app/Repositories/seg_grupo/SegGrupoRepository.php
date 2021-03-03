@@ -17,7 +17,12 @@ class SegGrupoRepository implements ISegGrupoRepository
     public function all()
     {
         //Retorna todos los grupos existentes en la base de datos, que esten activos
-        return $this->grupo->getAll();
+        return $this->grupo
+            ->with(['permisos' => function ($query) {
+                $query->select('idGrupo', 'idModulo', 'view', 'read', 'write', 'update', 'delete');
+            }])
+            ->orderBy('updated_at', 'desc')
+            ->paginate(5);
     }
 
     public function save($data)
@@ -44,5 +49,10 @@ class SegGrupoRepository implements ISegGrupoRepository
     public function getGrupo($id)
     {
         return $this->grupo->existe($id)->first();
+    }
+
+    public function getAllGrupos()
+    {
+        return $this->grupo->active()->get();
     }
 }

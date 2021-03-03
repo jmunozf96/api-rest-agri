@@ -8,6 +8,8 @@ use App\Models\SegUsuPerfil;
 use App\Repositories\seg_user\IAuthRepository;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTFactory;
 
 class AuthRepository implements IAuthRepository
 {
@@ -38,9 +40,7 @@ class AuthRepository implements IAuthRepository
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60,
-            'user' => Auth::user(),
-            'permisos' => $this->getModulesAccess(Auth::id())
+            'expires_in' => Auth::factory()->getTTL() * 60
         ];
     }
 
