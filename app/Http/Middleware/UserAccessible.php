@@ -28,6 +28,7 @@ class UserAccessible
         if (!$user) {
             return response()->json([
                 "status" => "error",
+                "type" => "token_expired",
                 "messagge" => "El usuario no se ha identificado."
             ], 403);
         }

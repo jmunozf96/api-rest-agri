@@ -13,6 +13,8 @@ class SegTipoModulo extends Model
 
     protected $fillable = ['nombre', 'descripcion'];
 
+    protected $hidden = [];
+
     public function modules()
     {
         return $this->hasMany(SegModulo::class, 'idTModulo', 'id');

@@ -34,8 +34,8 @@ class UserRequest extends FormRequest
                 ];
             case 'PATCH':
                 return [
-                    'name' => 'required|string|between:2,100|unique:SEG_USUARIO,name,'.$this->get('id'),
-                    'email' => 'required|string|email|max:100|unique:SEG_USUARIO,email,'.$this->get('id'),
+                    'name' => 'required|string|between:2,100|unique:SEG_USUARIO,name,' . $this->get('id'),
+                    'email' => 'required|string|email|max:100|unique:SEG_USUARIO,email,' . $this->get('id'),
                     'password' => 'required|string|confirmed|min:6',
                 ];
             default:
@@ -45,6 +45,9 @@ class UserRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json($validator->errors()->all(), 500));
+        throw new HttpResponseException(response()->json([
+            'type' => config('global.error_validation'),
+            'message' => $validator->errors(),
+        ], 500));
     }
 }

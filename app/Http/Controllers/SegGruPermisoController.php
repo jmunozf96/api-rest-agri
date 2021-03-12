@@ -21,12 +21,12 @@ class SegGruPermisoController extends Controller
     {
         try {
             DB::beginTransaction();
-            $response =  $this->permiso->update($request->validated());
+            $response = $this->permiso->update($request->validated());
             if ($response) :
                 DB::commit();
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Registro guardado con éxito.',
+                    'message' => 'Permisos registrados con éxito.',
                     'data' => $response
                 ], 200);
             endif;

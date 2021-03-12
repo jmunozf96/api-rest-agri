@@ -53,6 +53,6 @@ class SegGrupoRepository implements ISegGrupoRepository
 
     public function getAllGrupos()
     {
-        return $this->grupo->active()->get();
+        return $this->grupo->active()->orderBy('nombre')->get();
     }
 }

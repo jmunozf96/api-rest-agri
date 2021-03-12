@@ -19,7 +19,10 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         if (!$token = $this->authRepository->login($request->validated())) {
-            return response()->json(['error' => 'Usuario o contraseña incorrectas.'], 401);
+            return response()->json([
+                'type' => config('global.error_login'),
+                'message' => 'Usuario o contraseña incorrectas.'
+            ], 401);
         }
 
         return $this->createNewToken($token);

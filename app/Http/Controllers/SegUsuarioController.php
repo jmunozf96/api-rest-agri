@@ -107,7 +107,7 @@ class SegUsuarioController extends Controller
             throw new Exception('No se puedo eliminar el registro.', 500);
         } catch (Exception $ex) {
             DB::rollback();
-            return response()->json(['type' => 'error', 'message' => $ex->getMessage()], 500);
+            return response()->json(['type' => 'error_delete', 'message' => $ex->getMessage()], 500);
         }
     }
 }

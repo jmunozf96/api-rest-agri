@@ -24,12 +24,14 @@ class SegGruPermisoRepository implements ISegGruPermisoRepository
     {
         $grupo = SegGrupo::existe($data['idGrupo'])->first();
         if ($grupo) :
-            $permisos = $data['permisos'];
-            foreach ($permisos as $permiso) :
-                $saved = $this->gru_permiso->create(array_merge($permiso, ['idGrupo' => $grupo->id]));
-                if (!$saved)
-                    throw new Exception("Error al guardar el registro.", 500);
-            endforeach;
+            if (!empty($data['permisos'])) {
+                $permisos = $data['permisos'];
+                foreach ($permisos as $permiso) :
+                    $saved = $this->gru_permiso->create(array_merge($permiso, ['idGrupo' => $grupo->id]));
+                    if (!$saved)
+                        throw new Exception("Error al guardar el registro.", 500);
+                endforeach;
+            }
         endif;
 
         return true;

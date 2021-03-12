@@ -24,14 +24,15 @@ class SegUsuPerfilRepository implements ISegUsuPerfilRepository
     {
         $usuario = User::where('id', $data['idUsuario'])->firstOrFail();
         if ($usuario) :
-            $grupos = $data['grupos'];
-            foreach ($grupos as $grupo) :
-                $saved = $this->perfil->create(array_merge($grupo, ['idUsuario' => $usuario->id]));
-                if (!$saved)
-                    throw new Exception("Error al guardar el registro.", 500);
-            endforeach;
+            if (!empty($data['grupos'])) {
+                $grupos = $data['grupos'];
+                foreach ($grupos as $grupo) :
+                    $saved = $this->perfil->create(array_merge($grupo, ['idUsuario' => $usuario->id]));
+                    if (!$saved)
+                        throw new Exception("Error al guardar el registro.", 500);
+                endforeach;
+            }
         endif;
-
         return true;
     }
 

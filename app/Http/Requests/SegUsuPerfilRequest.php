@@ -29,7 +29,7 @@ class SegUsuPerfilRequest extends FormRequest
             case 'POST':
                 return [
                     'idUsuario' => 'required',
-                    'grupos' => 'required|array'
+                    'grupos' => 'present|array'
                 ];
             default:
                 break;
@@ -40,9 +40,8 @@ class SegUsuPerfilRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'type' => 'error',
-            'message' => 'Error en validacion de datos.',
-            'error' => $validator->errors()
+            'type' => config('global.error_validation'),
+            'message' => $validator->errors(),
         ], 500));
     }
 }
